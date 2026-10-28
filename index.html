@@ -1,0 +1,799 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>letters for you ♡</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg: #101114;
+    --panel: #17191e;
+    --text: #e9e7e2;
+    --muted: #999ba5;
+    --line: #393b43;
+    --accent: #aabbd5;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Courier Prime", monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    padding: 35px 18px 60px;
+}
+
+button { font: inherit; cursor: pointer; }
+
+button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+}
+
+.container {
+    max-width: 620px;
+    margin: auto;
+}
+
+header {
+    text-align: center;
+    margin: 15px 0 32px;
+}
+
+.polaroid {
+    width: 100px;
+    padding: 5px 5px 17px;
+    background: #e8e5df;
+    margin: 0 auto 20px;
+    transform: rotate(-4deg);
+    box-shadow: 0 5px 20px #0007;
+}
+
+.polaroid img {
+    display: block;
+    width: 100%;
+    height: 90px;
+    object-fit: cover;
+    background: #34363d;
+}
+
+.polaroid span {
+    display: block;
+    color: #25252a;
+    font-family: "Caveat", cursive;
+    font-size: 13px;
+    text-align: center;
+    line-height: 1.2;
+    padding-top: 5px;
+}
+
+h1 {
+    font-family: "Caveat", cursive;
+    font-size: clamp(43px, 9vw, 58px);
+    font-weight: 400;
+    line-height: 1.15;
+    margin: 10px 0;
+}
+
+.subtitle {
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin: 16px auto;
+    color: var(--accent);
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    width: 65px;
+    height: 1px;
+    background: #555966;
+}
+
+.music {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 12px;
+    margin: 24px 0 32px;
+}
+
+.music-icon {
+    font-size: 20px;
+    color: var(--accent);
+}
+
+.music-info { flex: 1; min-width: 0; }
+
+.music-name {
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.music-status {
+    font-size: 10px;
+    color: var(--muted);
+}
+
+#pauseBtn {
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    font-size: 17px;
+}
+
+.section-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin: 28px 0 12px;
+}
+
+.letter-list {
+    display: grid;
+    gap: 9px;
+}
+
+.letter-choice {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    width: 100%;
+    padding: 14px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    color: var(--text);
+    text-align: left;
+    transition: .2s;
+}
+
+.letter-choice:not(:disabled):hover {
+    border-color: var(--accent);
+    background: #1d2027;
+}
+
+.letter-choice.locked {
+    opacity: .48;
+    cursor: not-allowed;
+}
+
+.number {
+    color: var(--accent);
+    font-size: 12px;
+}
+
+.choice-title {
+    flex: 1;
+    font-family: "Courier Prime", monospace;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.status {
+    font-size: 10px;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.letter {
+    margin-top: 22px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: clamp(20px, 5vw, 32px);
+    background: #141519;
+    animation: appear .55s ease both;
+}
+
+.letter-meta {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--muted);
+}
+
+.letter h2 {
+    font-family: "Caveat", cursive;
+    font-size: clamp(31px, 7vw, 40px);
+    line-height: 1.2;
+    font-weight: 400;
+    margin: 16px 0 22px;
+}
+
+.letter-body {
+    line-height: 1.95;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    min-height: 100px;
+}
+
+.signature {
+    font-family: "Caveat", cursive;
+    font-size: 25px;
+    margin-top: 22px;
+}
+
+@keyframes appear {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.typing::after {
+    content: "▋";
+    animation: blink .7s steps(2) infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+.action {
+    background: transparent;
+    border: 1px solid #686b76;
+    color: var(--text);
+    padding: 11px 15px;
+    margin-top: 22px;
+    width: 100%;
+    transition: .2s;
+}
+
+.action:hover {
+    border-color: var(--accent);
+    background: #20232a;
+}
+
+.primary {
+    background: #e5e4df;
+    color: #15161a;
+    border-color: #e5e4df;
+}
+
+.primary:hover {
+    background: var(--accent);
+    color: #111217;
+}
+
+.hidden { display: none !important; }
+
+.reveal {
+    margin-top: 18px;
+    border: 1px dashed #5b6070;
+    border-radius: 5px;
+    padding: 22px 18px;
+    text-align: center;
+    animation: appear .8s ease both;
+}
+
+.reveal h3 {
+    font-family: "Caveat", cursive;
+    font-size: 31px;
+    font-weight: 400;
+    margin: 0 0 8px;
+}
+
+.reveal p {
+    color: #c3c4cb;
+    font-size: 12px;
+}
+
+
+footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 42px;
+}
+
+@media (max-width: 430px) {
+    body { padding: 30px 13px 50px; }
+    .letter-choice { padding: 11px; gap: 8px; }
+    .choice-title { font-size: 11px; }
+    .status { font-size: 9px; }
+}
+</style>
+</head>
+
+<body>
+<main class="container">
+
+<header id="top">
+    <div class="polaroid">
+        <img src="./photo.jpg" alt="itong picture muna ha" onerror="this.style.display='none'">
+        <span>what the heaven ♡</span>
+    </div>
+
+    <h1>chom's love for u</h1>
+    <p class="subtitle">mahal kita</p>
+    <p class="subtitle">mwah</p>
+
+    <div class="divider">♥</div>
+</header>
+
+<div class="music">
+    <div class="music-icon">♫</div>
+    <div class="music-info">
+        <div class="music-name" id="songName">a song for you</div>
+        <div class="music-status" id="musicStatus">
+            open a letter to start the music
+        </div>
+    </div>
+    <button id="pauseBtn" aria-label="Pause or play music">▶</button>
+</div>
+
+<p class="section-label">YOUR LETTERS ♡</p>
+
+<div class="letter-list" id="letterList"></div>
+
+<section class="letter hidden" id="letterCard">
+    <div class="letter-meta" id="letterMeta"></div>
+    <h2 id="letterTitle"></h2>
+    <div class="letter-body" id="letterBody"></div>
+    <div class="signature hidden" id="signature"></div>
+
+    <button class="action primary hidden" id="finishBtn">
+        i finished reading ♡
+    </button>
+</section>
+
+<section class="reveal hidden" id="unlockPanel">
+    <h3 id="unlockTitle">meron paaa ♡</h3>
+    <p id="unlockText">
+        go back to the beginning. u unlocked something hehe
+    </p>
+    <button class="action primary" id="backBtn">
+        gooo ↑
+    </button>
+</section>
+
+
+
+<audio id="song" preload="none"></audio>
+
+</main>
+
+<script>
+const letters = [
+{
+    title: "infinite reasons why i want to be with you for the rest of my life, mahal :)",
+    label: "LETTER 01 / bibiko",
+    song: "song1.mp3",
+    songName: "song one — libu-libong buwan",
+    text: `my dearest chichay,
+
+alam kong may mga oras tayong hindi nagkakasundo
+o madalas ay hindi nagkakaintindihan,
+but i just want to let u know na it makes me
+feel na parang it strengthens us both to
+make it work together eheheh i don't even think
+words will ever be enough to explain how much you
+mean to me :)
+
+there isn't a single day that goes by
+where i don't feel lucky to have you,
+it's like lahat ng kailangan ko, nasayo na.
+and even the simplest things you do for us,
+waiting for me kapag may problema ako,
+alam kong ikaw na e. that's why
+im beyond grateful for you
+
+i want to keep choosing you, baby.
+even when life feels a little less easy,
+but we know that it's never been easy.
+
+you met me as an atheist diba? pero i somehow find
+myself praying to a God that i don't even believe
+in to make me keep you.
+
+i find myself praying in the middle of the night
+to let me have you for the rest of my life.
+
+and if you ever wonder why it's you,
+i hope this letter reminds you.
+
+kasi it's you, bebe.
+it has always been you.`,
+    signature: "with all my heart, theres a hart ♡"
+},
+{
+    title: "read me when you're sad",
+    label: "LETTER 02",
+    song: "song2.mp3",
+    songName: "song two — last night on earth",
+    text: `hi, baby.
+
+if you're reading this, maybe today, the next day,
+and then yes and then ya hasn't been the kindest to you
+
+u don't have to pretend you're okay or act strong
+just because u dont want anyone to worry or u like
+being alone kasi i won't think any less of you
+for having difficult days. i hope you make
+yourself feel comfortable telling me about what
+happened wrong today or that day, or how you felt or
+what you thought or what bothered u (k sory for the ors love u)
+
+i hope you remember that you deserve
+the same patience and kindness
+you give to everybody else.
+im here for every chaos that you're struggling with,
+i never want you to feel like u are battling all of this alone :)
+
+i'm here lang palagi bebi, okay?`,
+    signature: "be vulnerable towards me"
+},
+{
+    title: "read me when you're irritated or not in the mood",
+    label: "LETTER 03 / chill lang by",
+    song: "song3.mp3",
+    songName: "song three — ewan",
+    text: `hey, mahal q
+
+if everything is annoying right now,
+if you're tired, overwhelmed,
+or you just don't feel like talking,
+okay lang yun :D
+
+you don't have to force yourself
+to be cheerful for me palagi or
+have to reply immediately
+or explain every little thing.
+
+gusto ko lang po na sabihin mo
+agad if wala ka sa mood kasi kilala ko sarili ko na
+if you're acting very odd, i'll think
+i did smth wrong and u know me too sigh :(
+
+pero kahit na minsan ay di mo po 
+nasasabi at naiiwan ako w no clue,
+okay lang hayst dahil di naman nabago ang
+pag ibig mo sa akin, yun lang mahalaga saken hehe
+
+take your time lang chechehhh
+get some space if you need it.
+breathe,
+and let yourself settle.
+
+mahal na mahal kita
+at nirerespeto ko alone time mo,
+(sana rin ay mahal mo rin ako)
+
+i won't expect you to be okay
+every second of every day. but i'll
+still make sure na happy ikaw po
+
+i love you on the quiet days too yk
+even when you have nothing to say or
+even when all you need is a little space
+
+we can talk when you're ready mwuuaaah`,
+    signature: "yuwan labs you"
+},
+{
+    title: "read when you feel small",
+    label: "LETTER 04 / liit ikaw bby? NO u are 6ft tall",
+    song: "song4.mp3",
+    songName: "song four — maging sino ka man",
+    text: `my love,
+
+i wish you could see yourself
+through my eyes for just a moment.
+
+at nang maintindihan mo kung
+bakit i care about you so much,
+why your matter,
+and why even the smallest things
+about you can make my araw
+
+you will always be enough for me checheh
+lovelove kita so much sana alam mo at 
+feel mo yun dahil may mga oras na ako'y
+nahihirapan akong ipakita sayo yun ahahah
+
+kaya i made dis para ipaalam sayo 
+k but again,
+
+you don't have to be perfect, bebe
+pero wala e, sa paningin ko sobra sobra pa :)
+you don't have to hide the parts of you
+that you're still figuring out kasi tao ka pa rin naman
+you are allowed to need reassurance,
+and you are allowed to feel anything.
+
+you can just be you with me hehe`,
+    signature: "that will always be enough for me."
+},
+{
+    title: "baby, when you're tired of everything and u don't know what to do, please read this.",
+    label: "LETTER 05 / basahin mo haa",
+    song: "song5.mp3",
+    songName: "song five — janice",
+    text: `baby,
+
+uulitin ko, i don't want you suffering through
+all this chaos alone.
+
+i want you to feel that i'm with you,
+just like what you make me feel
+when i let myself show you
+the vulnerable side of me.
+
+you make me feel like i don't always
+have to keep everything to myself.
+you make it easier for me to be honest
+about the things i usually keep hidden.
+
+at ang hiling ko'y sana maging mahina ka rin sa akin.
+
+dahil ayaw na ayaw kong nag iisa ka, mahal.
+ayaw kong malungkot ka at maramdaman mong
+wala kang matatakbuhan. ayaw ko rin na
+sinasaktan mo sarili mo, at sana rin ay
+wag mo nang ipagpatuloy yang pagvvape uhuhuh
+
+but again, if all you can do today is take things
+one little step at a time, thennn syempre ayos lang
+kasi we can figure things out naman like u saidd
+
+i can't promise that every day
+will be easy, and i won't pretend
+i'll always know exactly what to say kasi
+i have imperfections and flaws as well
+
+but i can promise to listen,
+to try to understand,
+and to keep making room for your feelings :)
+
+please remember that you matter
+even on the days you don't feel like yourself.
+
+and whenever the world feels too loud,
+i hope you remember that you have
+someone who wants to hear you
+
+and that you don't have to go through everything
+pretending that you're fine with me.
+
+i love you, mahal.
+on the good days, the messy days,
+and all the ordinary days in between.`,
+    signature: "mahal kita."
+}
+];
+
+let unlocked = 1;
+let current = null;
+let typingTimer = null;
+let typing = false;
+let typedComplete = false;
+
+const list = document.getElementById("letterList");
+const card = document.getElementById("letterCard");
+const title = document.getElementById("letterTitle");
+const body = document.getElementById("letterBody");
+const meta = document.getElementById("letterMeta");
+const finishBtn = document.getElementById("finishBtn");
+const signature = document.getElementById("signature");
+const song = document.getElementById("song");
+const songName = document.getElementById("songName");
+const musicStatus = document.getElementById("musicStatus");
+const unlockPanel = document.getElementById("unlockPanel");
+const pauseBtn = document.getElementById("pauseBtn");
+
+song.addEventListener("error", () => {
+    pauseBtn.textContent = "▶";
+    musicStatus.textContent = "song file not found — check the uploaded files";
+});
+
+function renderList() {
+    list.innerHTML = "";
+
+    letters.forEach((letter, index) => {
+        const available = index < unlocked;
+
+        const button = document.createElement("button");
+        button.className = "letter-choice" +
+            (available ? "" : " locked");
+
+        button.disabled = !available;
+
+        const number = document.createElement("span");
+        number.className = "number";
+        number.textContent = String(index + 1).padStart(2, "0") + ".";
+
+        const name = document.createElement("span");
+        name.className = "choice-title";
+
+        // Keep titles hidden until that letter is opened.
+        name.textContent = current === index
+            ? letter.title
+            : "####################";
+
+        const status = document.createElement("span");
+        status.className = "status";
+        status.textContent = !available
+            ? "🔒 locked"
+            : current === index
+                ? "open ↗"
+                : "tap to open";
+
+        button.append(number, name, status);
+
+        if (available) {
+            button.addEventListener("click", () => openLetter(index));
+        }
+
+        list.appendChild(button);
+    });
+}
+
+function stopTyping() {
+    clearTimeout(typingTimer);
+    typingTimer = null;
+    typing = false;
+    body.classList.remove("typing");
+}
+
+function typeMessage(message) {
+    stopTyping();
+    body.textContent = "";
+    body.classList.add("typing");
+    typing = true;
+    typedComplete = false;
+    finishBtn.classList.add("hidden");
+    signature.classList.add("hidden");
+
+    let i = 0;
+
+    function next() {
+        if (i >= message.length) {
+            stopTyping();
+            typedComplete = true;
+            signature.textContent = letters[current].signature;
+            signature.classList.remove("hidden");
+            finishBtn.classList.remove("hidden");
+            finishBtn.textContent = current === letters.length - 1
+                ? "one last thing ♡"
+                : "i finished reading ♡";
+            return;
+        }
+
+        body.textContent += message.charAt(i++);
+
+        // Pause for 3 seconds after the first letter's greeting.
+        const greeting = "my dearest chichay,\n\n";
+        const pauseAfterGreeting = current === 0 && message.startsWith(greeting) && i === greeting.length;
+        typingTimer = setTimeout(next, pauseAfterGreeting ? 3000 : 85);
+    }
+
+    next();
+}
+
+function openLetter(index) {
+    if (index >= unlocked) return;
+
+    current = index;
+
+    unlockPanel.classList.add("hidden");
+    card.classList.remove("hidden");
+
+    const letter = letters[index];
+
+    meta.textContent = letter.label;
+    title.textContent = letter.title;
+
+    renderList();
+
+    // Switch to this letter's song.
+    song.pause();
+    song.src = "./" + letter.song;
+    song.load();
+    song.currentTime = 0;
+    songName.textContent = letter.songName;
+    musicStatus.textContent = "loading your song...";
+
+    song.play().then(() => {
+        pauseBtn.textContent = "Ⅱ";
+        musicStatus.textContent = "now playing ♫";
+    }).catch(() => {
+        pauseBtn.textContent = "▶";
+        musicStatus.textContent =
+            "press play to listen to this letter's song";
+    });
+
+    typeMessage(letter.text);
+
+    card.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
+
+finishBtn.addEventListener("click", () => {
+    if (typing || !typedComplete || current === null) return;
+
+    if (current < letters.length - 1) {
+        // Unlock exactly one new letter.
+        unlocked = Math.max(unlocked, current + 2);
+        renderList();
+
+        unlockPanel.classList.remove("hidden");
+        document.getElementById("unlockTitle").textContent =
+            current === 0
+                ? "mahal, there's moreeee ♡"
+                : "you unlocked another letter ♡";
+
+        document.getElementById("unlockText").textContent =
+            "hehe, you thought that was all? go back to the beginning. there's something new waiting for you.";
+
+        document.getElementById("backBtn").textContent =
+            "go back to my letters ↑";
+
+        unlockPanel.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+    } else {
+        // Final reveal — no extra photo at the end.
+        unlockPanel.classList.remove("hidden");
+        document.getElementById("unlockTitle").textContent =
+            "you made it to the end, mahal ♡";
+
+        document.getElementById("unlockText").textContent =
+            "five little letters, and so many things i wanted you to know. i hope you felt every word.";
+
+        document.getElementById("backBtn").textContent =
+            "go back to my letters ↑";
+
+        unlockPanel.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+    }
+});
+
+document.getElementById("backBtn").addEventListener("click", () => {
+    list.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+});
+
+pauseBtn.addEventListener("click", () => {
+    if (!song.src) return;
+
+    if (song.paused) {
+        song.play().then(() => {
+            pauseBtn.textContent = "Ⅱ";
+            musicStatus.textContent = "now playing ♫";
+        }).catch(() => {
+            musicStatus.textContent = "couldn't play this song";
+        });
+    } else {
+        song.pause();
+        pauseBtn.textContent = "▶";
+        musicStatus.textContent = "music paused";
+    }
+});
+
+// Show the landing page first; the first letter is ready to open.
+renderList();
+</script>
+</body>
+</html>
